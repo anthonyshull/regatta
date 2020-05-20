@@ -2,9 +2,7 @@
 
 Regatta is a server for hosting distributed regattas.
 
-** SUBMIT TO GOLANG WEEKLY **
-
-## TERMINAL USER INTERFACE
+## TERMINAL USER INTERFACE (future release)
 
 ```
 %> rui <user>:<password>@<uri>
@@ -39,7 +37,7 @@ Raw migration commands:
 %> journey --url cassandra://127.0.0.1:9042/regatta --path ./internal/migrations migrate create my_migration
 %> journey --url cassandra://127.0.0.1:9042/regatta --path ./internal/migrations migrate up
 ```
-The Mage equivalents (from */internal/build*):
+The Mage equivalents executed from */internal/build*:
 ```
 %> MIGRATION=my_migration mage migrate:create
 %> mage migrate:up

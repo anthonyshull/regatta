@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"net/http"
 	"os"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/gorilla/rpc/v2"
 	"github.com/gorilla/rpc/v2/json2"
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/scylladb/gocqlx/v2"
 	flag "github.com/spf13/pflag"
 
@@ -27,25 +29,24 @@ func main() {
 	flag.Parse()
 
 	// logger
-	logger := zerolog.New(os.Stdout)
+	log.Logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stdout}).With().Timestamp().Logger()
 
 	// cassandra
 	cluster := gocql.NewCluster(*hosts...)
 	cluster.Keyspace = "regatta"
 	session, err := gocqlx.WrapSession(cluster.CreateSession())
 	if err != nil {
-		logger.Fatal().Err(err)
+		log.Fatal().Err(err)
 	}
 
-	fmt.Println("HERE!")
-	logger.Error().Str("I'M", "HERE")
-
 	router := mux.NewRouter()
+
+	// middlewares
 
 	// services
 	s := rpc.NewServer()
 	s.RegisterCodec(json2.NewCodec(), "application/json")
-	s.RegisterService(&races.Service{session, logger}, "RacesService")
+	s.RegisterService(&races.Service{Session: session}, "RacesService")
 	router.Handle("/rpc", s).Methods("POST")
 
 	// websockets
@@ -56,6 +57,6 @@ func main() {
 
 	err = http.ListenAndServe(fmt.Sprintf(":%d", *port), router)
 	if err != nil {
-		logger.Fatal().Err(err)
+		log.Fatal().Err(err)
 	}
 }

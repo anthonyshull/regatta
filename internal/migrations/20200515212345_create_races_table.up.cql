@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS regatta.races (
-    uuid UUID PRIMARY KEY,
+    id UUID PRIMARY KEY,
     name TEXT,
     start TIMESTAMP,
-    distance INT
+    distance INT,
+    boats SET<FROZEN<flyweight>>
 );

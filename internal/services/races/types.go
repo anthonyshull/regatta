@@ -1,13 +1,14 @@
 package races
 
 import (
-	"github.com/gocql/gocql"
 	"time"
+
+	"github.com/gocql/gocql"
 )
 
 type Race struct {
-	gocql.UUID
-	Name string
-	Start time.Time
+	ID       gocql.UUID
+	Name     string
+	Start    time.Time
 	Distance int
 }

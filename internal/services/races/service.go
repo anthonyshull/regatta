@@ -4,25 +4,25 @@ import (
 	"net/http"
 
 	"github.com/gocql/gocql"
-	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/scylladb/gocqlx/v2"
 )
 
 type Service struct {
 	gocqlx.Session
-	zerolog.Logger
 }
 
 type Get struct {
-	gocql.UUID
+	ID gocql.UUID
 }
 
 func (s *Service) Get(_ *http.Request, get *Get, race *Race) error {
-	race.UUID = get.UUID
-	q := s.Session.Query(tb.Get()).BindStruct(race)
-	if err := q.GetRelease(&race); err != nil {
-		s.Logger.Error().Str("I'M", "HERE")
+
+	q := s.Session.Query(tb.Get()).BindStruct(get)
+	if err := q.GetRelease(race); err != nil {
+		log.Error().Err(err)
 		return err
 	}
+
 	return nil
 }
