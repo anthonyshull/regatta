@@ -1,6 +1,6 @@
-# REGATTA
+![logo](logo.svg)
 
-Regatta is a server for hosting distributed regattas.
+Server software for conducting virtual ergometer regattas.
 
 ## TERMINAL USER INTERFACE (future release)
 
@@ -9,13 +9,14 @@ Regatta is a server for hosting distributed regattas.
 ```
 
 ## DEVELOPMENT
-We use the [gorilla](https://github.com/labstack/echo) framework with [JSON-RPC](https://www.jsonrpc.org/specification) and [Cassandra](https://cassandra.apache.org/).
+We use the [gorilla](https://www.gorillatoolkit.org/) toolkit with [JSON-RPC](https://www.jsonrpc.org/specification) and [Cassandra](https://cassandra.apache.org/).
 Run the server in development mode:
 ```
 %> go run ./cmd/server
 ```
 ### BUILDS
-We use [mage](https://magefile.org/). 
+We use [mage](https://magefile.org/).
+
 ### CASSANDRA
 Start a local Cassandra instance:
 ```

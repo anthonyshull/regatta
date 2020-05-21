@@ -1,4 +1,4 @@
-package pkg
+package types
 
 type Flyweight struct {
 	ID string
