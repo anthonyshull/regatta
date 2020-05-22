@@ -1,6 +1,6 @@
 package types
 
 type Flyweight struct {
-	ID string
+	ID
 	Name string
 }
