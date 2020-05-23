@@ -14,9 +14,9 @@ import (
 	"github.com/scylladb/gocqlx/v2"
 	flag "github.com/spf13/pflag"
 
-	"github.com/anthonyshull/regatta/internal/services/boats"
 	"github.com/anthonyshull/regatta/internal/services/races"
 	"github.com/anthonyshull/regatta/internal/services/results"
+	"github.com/anthonyshull/regatta/internal/services/shells"
 )
 
 func health(w http.ResponseWriter, _ *http.Request) {
@@ -46,7 +46,7 @@ func main() {
 	// services
 	s := rpc.NewServer()
 	s.RegisterCodec(json2.NewCodec(), "application/json")
-	s.RegisterService(&boats.Service{Session: session}, "BoatsService")
+	s.RegisterService(&shells.Service{Session: session}, "ShellsService")
 	s.RegisterService(&races.Service{Session: session}, "RacesService")
 	router.Handle("/rpc", s).Methods("POST")
 

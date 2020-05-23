@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS regatta.boats (
+CREATE TABLE IF NOT EXISTS regatta.shells (
     id UUID PRIMARY KEY,
     name TEXT,
     team flyweight,

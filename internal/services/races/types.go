@@ -8,8 +8,8 @@ import (
 
 //
 type Race struct {
-	types.ID
-	Name     string
+	types.Flyweight
 	Start    time.Time
 	Distance int
+	Shells []types.Flyweight
 }

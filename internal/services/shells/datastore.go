@@ -1,4 +1,4 @@
-package races
+package shells
 
 import (
 	"github.com/scylladb/gocqlx/v2"
@@ -8,25 +8,25 @@ import (
 )
 
 var metadata = table.Metadata{
-	Name:    "races",
-	Columns: []string{"id", "name", "start", "distance"},
+	Name:    "shells",
+	Columns: []string{"id", "name", "team", "users"},
 	PartKey: []string{"id"},
 }
 
 var tb = table.New(metadata)
 
-func Create(session gocqlx.Session, race *Race) error {
-	q := session.Query(tb.Insert()).BindStruct(race)
+func Create(session gocqlx.Session, shell *Shell) error {
+	q := session.Query(tb.Insert()).BindStruct(shell)
 	return q.ExecRelease()
 }
 
-func Read(session gocqlx.Session, id *types.ID, race *Race) error {
+func Read(session gocqlx.Session, id *types.ID, shell *Shell) error {
 	q := session.Query(tb.Get()).BindStruct(id)
-	return q.GetRelease(race)
+	return q.GetRelease(shell)
 }
 
-func Update(session gocqlx.Session, race *Race) error {
-	q := session.Query(tb.Update()).BindStruct(race)
+func Update(session gocqlx.Session, shell *Shell) error {
+	q := session.Query(tb.Update()).BindStruct(shell)
 	return q.ExecRelease()
 }
 

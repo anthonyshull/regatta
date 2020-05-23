@@ -1,11 +1,10 @@
-package boats
+package shells
 
 import "github.com/anthonyshull/regatta/pkg/types"
 
 //
-type Boat struct {
-	types.ID
-	Name  string
+type Shell struct {
+	types.Flyweight
 	Team  types.Flyweight
 	Users []types.Flyweight
 }

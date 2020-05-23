@@ -2,8 +2,17 @@
 
 Server software for conducting virtual ergometer regattas.
 
-## TERMINAL USER INTERFACE (future release)
+## INSTALLATION
 
+## TERMINAL USER INTERFACE
+
+*future release*
+
+`rui` is a [terminal user interface](https://en.wikipedia.org/wiki/Text-based_user_interface) into Regatta that can be installed separately.
+```
+%> ...
+```
+You can attach to any running Regatta instance you control:
 ```
 %> rui <user>:<password>@<uri>
 ```
@@ -14,6 +23,10 @@ Run the server in development mode:
 ```
 %> go run ./cmd/server
 ```
+### PHILOSOPHY
+
+### STRUCTURE
+
 ### BUILDS
 We use [mage](https://magefile.org/).
 

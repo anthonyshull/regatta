@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS regatta.races (
     name TEXT,
     start TIMESTAMP,
     distance INT,
-    boats SET<FROZEN<flyweight>>
+    shells SET<FROZEN<flyweight>>
 );

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS regatta.users (
-    id UUID PRIMARY KEY ,
+    id UUID PRIMARY KEY,
     name TEXT,
     email TEXT,
     password TEXT,
