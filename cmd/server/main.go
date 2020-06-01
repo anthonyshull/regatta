@@ -14,14 +14,11 @@ import (
 	"github.com/scylladb/gocqlx/v2"
 	flag "github.com/spf13/pflag"
 
+	"github.com/anthonyshull/regatta/internal/auth"
 	"github.com/anthonyshull/regatta/internal/services/races"
 	"github.com/anthonyshull/regatta/internal/services/results"
 	"github.com/anthonyshull/regatta/internal/services/shells"
 )
-
-func health(w http.ResponseWriter, _ *http.Request) {
-	w.Write([]byte("ok"))
-}
 
 func main() {
 	hosts := flag.StringSlice("hosts", []string{"127.0.0.1"}, "Cassandra Hosts")
@@ -41,20 +38,28 @@ func main() {
 
 	router := mux.NewRouter()
 
-	// middlewares
+	open := router.PathPrefix("/o").Subrouter()
+	open.Use(telemetry)
+
+	// login
+	open.HandleFunc(auth.LoginURI, auth.Login).Methods("POST")
+	// health
+	open.HandleFunc(healthURI, health).Methods("GET")
+
+	protected := router.PathPrefix("/p").Subrouter()
+	protected.Use(telemetry, auth.Authenticate)
 
 	// services
-	s := rpc.NewServer()
-	s.RegisterCodec(json2.NewCodec(), "application/json")
-	s.RegisterService(&shells.Service{Session: session}, "ShellsService")
-	s.RegisterService(&races.Service{Session: session}, "RacesService")
-	router.Handle("/rpc", s).Methods("POST")
+	rpc := rpc.NewServer()
+	rpc.RegisterCodec(json2.NewCodec(), "application/json")
+	rpc.RegisterService(&shells.Service{Session: session}, "ShellsService")
+	rpc.RegisterService(&races.Service{Session: session}, "RacesService")
+	protected.Handle("/rpc", rpc).Methods("POST")
 
 	// websockets
-	router.HandleFunc("/results/regatta/{id:[0-9]+}", results.Regatta).Methods("GET")
-
-	// health
-	router.HandleFunc("/health", health).Methods("GET")
+	ws := protected.PathPrefix("/ws").Subrouter()
+	ws.Use(upgrade)
+	ws.HandleFunc("/results/regatta/{id:[0-9]+}", results.Regatta).Methods("GET")
 
 	err = http.ListenAndServe(fmt.Sprintf(":%d", *port), router)
 	if err != nil {

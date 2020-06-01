@@ -8,15 +8,12 @@ import (
 )
 
 func Regatta(w http.ResponseWriter, r *http.Request) {
-	var upgrader = websocket.Upgrader{
-		ReadBufferSize:  1024,
-		WriteBufferSize: 1024,
-	}
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		return
-	}
+	conn := r.Context().Value("conn").(*websocket.Conn)
+
 	vars := mux.Vars(r)
+
 	conn.WriteJSON(vars["id"])
+
 	conn.Close()
+
 }

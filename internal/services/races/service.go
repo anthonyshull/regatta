@@ -51,5 +51,6 @@ func (s *Service) RemoveShell(_ *http.Request, relation *types.Relation, _ *json
 		RemoveNamed("shells", "child").
 		Where(qb.Eq("id")).
 		ToCql()
+
 	return s.Session.Query(stmt, names).BindStruct(relation).ExecRelease()
 }

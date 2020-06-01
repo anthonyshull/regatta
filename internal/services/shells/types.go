@@ -1,10 +1,15 @@
 package shells
 
-import "github.com/anthonyshull/regatta/pkg/types"
+import (
+	"github.com/gocql/gocql"
+
+	"github.com/anthonyshull/regatta/pkg/types"
+)
 
 //
 type Shell struct {
-	types.Flyweight
+	ID    gocql.UUID
+	Name  string
 	Team  types.Flyweight
 	Users []types.Flyweight
 }

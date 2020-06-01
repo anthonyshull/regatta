@@ -9,7 +9,7 @@ import (
 
 var metadata = table.Metadata{
 	Name:    "races",
-	Columns: []string{"id", "name", "start", "distance"},
+	Columns: []string{"id", "name", "start", "distance", "shells"},
 	PartKey: []string{"id"},
 }
 
@@ -22,7 +22,7 @@ func Create(session gocqlx.Session, race *Race) error {
 
 func Read(session gocqlx.Session, id *types.ID, race *Race) error {
 	q := session.Query(tb.Get()).BindStruct(id)
-	return q.GetRelease(race)
+	return q.Get(race)
 }
 
 func Update(session gocqlx.Session, race *Race) error {
